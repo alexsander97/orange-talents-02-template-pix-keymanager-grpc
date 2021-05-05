@@ -1,0 +1,83 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "br.com.zup.edu";
+option java_outer_classname = "KeyManagerGrpc";
+
+import "google/protobuf/timestamp.proto";
+
+package br.com.zup.edu;
+
+
+service RegisterPixService {
+  rpc create (RegisterPixKeyRequest) returns (RegisterPixKeyResponse) {}
+}
+
+service RemovePixService {
+  rpc remove (RemovePixKeyRequest) returns (RemovePixKeyResponse) {}
+}
+
+service LoadPixService{
+  rpc load (LoadPixRequest) returns (LoadPixResponse) {}
+}
+
+message LoadPixRequest {
+  message FilterByPixId {
+    string clientId = 1;
+    string pixID = 2;
+  }
+  oneof Filter {
+    FilterByPixId pixId = 1;
+    string key = 2;
+  }
+}
+
+message LoadPixResponse {
+  message AccountInfo {
+    AccountType accountType = 1;
+    string institution = 2;
+    string nameOfHolder = 3;
+    string cpfOfHolder = 4;
+    string agency = 5;
+    string numberOfAccount = 6;
+  }
+
+  KeyType type = 1;
+  string key = 2;
+  AccountInfo account = 3;
+  google.protobuf.Timestamp createdAt = 4;
+}
+
+enum KeyType {
+  KEY = 0;
+  CPF = 1;
+  PHONE = 2;
+  EMAIL = 3;
+  RANDOM_KEY = 4;
+}
+
+enum AccountType {
+  CONTA = 0;
+  CONTA_CORRENTE = 1;
+  CONTA_POUPANCA = 2;
+}
+
+message RemovePixKeyRequest {
+  string pixId = 1;
+  string idClient = 2;
+}
+
+message RemovePixKeyResponse {
+  bool success = 1;
+}
+
+message RegisterPixKeyRequest {
+  string idClient = 1;
+  KeyType keyType = 2;
+  string keyValue = 3;
+  AccountType accountType = 4;
+}
+
+message RegisterPixKeyResponse {
+  string id = 1;
+}

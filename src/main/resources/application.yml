@@ -1,0 +1,26 @@
+micronaut:
+  application:
+    name: keyManagerGrpc
+
+
+datasources:
+  default:
+    url: jdbc:mysql://localhost:3306/pix?useTimezone=true&serverTimezone=UTC
+    driverClassName: com.mysql.cj.jdbc.Driver
+    username: root
+    password: root
+    dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+
+jpa:
+  default:
+    properties:
+      hibernate:
+        hbm2ddl:
+          auto: update
+
+
+bcbClient:
+  url: ${BCB_CLIENT:`http://localhost:8082/api/v1/pix`}
+
+erpItauClient:
+  url: ${ERP_CLIENT:`http://localhost:9091/api/v1/clientes`}
